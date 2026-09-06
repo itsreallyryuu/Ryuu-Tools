@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ryuu Tools</string>
+    <string name="splash_tagline">Loading Ryuu Tools…</string>
+    <string name="home_title">Dashboard</string>
+</resources>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splashRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark">
+
+    <LinearLayout
+        android:id="@+id/splashCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_card_rounded">
+
+        <!-- VIDEO -->
+        <FrameLayout
+            android:id="@+id/videoContainerSplash"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:clipChildren="true">
+
+            <VideoView
+                android:id="@+id/videoSplash"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+        <!-- KONTEN TEKS -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Header: logo bulat + judul -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:background="@drawable/bg_circle_logo"
+                    android:gravity="center"
+                    android:text="R"
+                    android:textColor="@color/neon_cyan"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/orbitron_bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Ryuu Tools — Loading..."
+                    android:textColor="@color/text_white"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/orbitron_bold" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Preparing all your tools. Just a moment!"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp"
+                android:fontFamily="sans-serif-condensed" />
+
+            <!-- Row label + counter -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="14dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Loading"
+                    android:textColor="@color/text_white"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-condensed" />
+
+                <TextView
+                    android:id="@+id/tvPercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 / 10"
+                    android:textColor="@color/neon_cyan"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-condensed" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBarSplash"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="6dp"
+                android:max="10"
+                android:progress="0"
+                android:progressTint="@color/neon_cyan"
+                android:progressBackgroundTint="#2A2A38" />
+
+            <!-- Stepper -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tvStepStart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="START"
+                    android:textColor="@color/neon_cyan"
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-condensed" />
+
+                <TextView
+                    android:id="@+id/tvStepConfig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="CONFIG"
+                    android:textColor="#666666"
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-condensed" />
+
+                <TextView
+                    android:id="@+id/tvStepTools"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="TOOLS"
+                    android:textColor="#666666"
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-condensed" />
+
+                <TextView
+                    android:id="@+id/tvStepReady"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="READY"
+                    android:textColor="#666666"
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-condensed" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

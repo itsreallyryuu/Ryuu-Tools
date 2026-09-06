@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_back"
+                android:tint="@color/neon_cyan"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="Speed Test"
+                android:textColor="@color/neon_cyan"
+                android:textSize="18sp"
+                android:fontFamily="@font/orbitron_bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card_rounded"
+            android:padding="18dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="14dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ping"
+                    android:textColor="#888888"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-condensed" />
+                <TextView
+                    android:id="@+id/tvPing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/text_white"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/orbitron_bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="14dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Download"
+                    android:textColor="#888888"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-condensed" />
+                <TextView
+                    android:id="@+id/tvDownload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/neon_cyan"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/orbitron_bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Upload"
+                    android:textColor="#888888"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-condensed" />
+                <TextView
+                    android:id="@+id/tvUpload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/neon_cyan"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/orbitron_bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:text="Tap Start to test your connection"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-condensed" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:indeterminateTint="@color/neon_cyan"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnStartTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Start Test"
+            android:backgroundTint="@color/neon_cyan"
+            android:textColor="@color/text_white"
+            android:fontFamily="sans-serif-condensed" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

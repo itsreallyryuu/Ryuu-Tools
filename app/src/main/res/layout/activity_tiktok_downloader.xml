@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_back"
+                android:tint="@color/neon_cyan"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="TikTok Downloader"
+                android:textColor="@color/neon_cyan"
+                android:textSize="18sp"
+                android:fontFamily="@font/orbitron_bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/inputSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etTiktokLink"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Paste TikTok video/photo link here..."
+                    android:textColorHint="#888888"
+                    android:textColor="@color/text_white"
+                    android:padding="14dp"
+                    android:paddingEnd="44dp"
+                    android:background="@drawable/bg_card_rounded"
+                    android:inputType="textUri"
+                    android:maxLines="1"
+                    android:fontFamily="sans-serif-condensed" />
+
+                <ImageButton
+                    android:id="@+id/btnClearInput"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_clear"
+                    android:tint="#888888"
+                    android:contentDescription="Clear" />
+
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/btnFetch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Fetch"
+                android:backgroundTint="@color/neon_cyan"
+                android:textColor="@color/text_white"
+                android:fontFamily="sans-serif-condensed" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/neon_purple"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card_rounded"
+            android:padding="14dp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvResultTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-condensed"
+                android:maxLines="3"
+                android:ellipsize="end" />
+
+            <LinearLayout
+                android:id="@+id/videoModeGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/ivPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_video_border" />
+
+                <Button
+                    android:id="@+id/btnDownloadVideo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Download Video (HD, No Watermark)"
+                    android:backgroundTint="@color/neon_cyan"
+                    android:textColor="@color/text_white"
+                    android:fontFamily="sans-serif-condensed" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/photoModeGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPhotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:nestedScrollingEnabled="false" />
+
+                <Button
+                    android:id="@+id/btnDownloadAllPhotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Download All Photos"
+                    android:backgroundTint="@color/neon_cyan"
+                    android:textColor="@color/text_white"
+                    android:fontFamily="sans-serif-condensed" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnDownloadAudio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Download Audio (MP3)"
+                android:backgroundTint="@color/neon_purple"
+                android:textColor="@color/text_white"
+                android:fontFamily="sans-serif-condensed"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnReset"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="Download Another Link"
+                android:background="@drawable/bg_button_outline_cyan"
+                android:textColor="@color/neon_cyan"
+                android:fontFamily="sans-serif-condensed" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp">
+
+    <ImageView
+        android:id="@+id/ivPhotoThumb"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/bg_video_border" />
+
+    <ImageView
+    android:id="@+id/ivPhotoDownload"
+    android:layout_width="34dp"
+    android:layout_height="34dp"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="8dp"
+    android:padding="6dp"
+    android:background="@drawable/bg_card_rounded"
+    android:src="@drawable/ic_download"
+    android:tint="@color/neon_cyan"
+    android:contentDescription="Download photo" />
+</FrameLayout>

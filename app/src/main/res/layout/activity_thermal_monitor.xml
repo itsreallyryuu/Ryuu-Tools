@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_back"
+                android:tint="@color/neon_cyan"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="Thermal Monitor"
+                android:textColor="@color/neon_cyan"
+                android:textSize="18sp"
+                android:fontFamily="@font/orbitron_bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card_rounded"
+            android:padding="20dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvTempValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--°C"
+                android:textColor="@color/neon_cyan"
+                android:textSize="42sp"
+                android:fontFamily="@font/orbitron_bold" />
+
+            <TextView
+                android:id="@+id/tvTempStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Checking..."
+                android:textColor="@color/text_white"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-condensed" />
+
+            <ProgressBar
+                android:id="@+id/progressTemp"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginTop="16dp"
+                android:max="60"
+                android:progress="0"
+                android:progressTint="@color/neon_cyan"
+                android:progressBackgroundTint="#2A2A38" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Based on battery sensor — a close estimate of device temperature"
+                android:textColor="#888888"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnCoolDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Cool Down Now"
+            android:backgroundTint="@color/neon_cyan"
+            android:textColor="@color/text_white"
+            android:fontFamily="sans-serif-condensed" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card_rounded"
+            android:padding="16dp"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cooling Tips"
+                android:textColor="@color/text_white"
+                android:textSize="14sp"
+                android:fontFamily="@font/orbitron_bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="• Close unused background apps\n• Remove your phone case for a while\n• Avoid direct sunlight or hot surfaces\n• Pause charging during heavy gaming\n• Lower screen brightness"
+                android:textColor="@color/text_white"
+                android:textSize="12sp"
+                android:lineSpacingExtra="4dp"
+                android:fontFamily="sans-serif-condensed" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
