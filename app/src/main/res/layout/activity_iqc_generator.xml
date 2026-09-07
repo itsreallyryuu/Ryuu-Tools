@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg_dark">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
+            <ImageButton android:id="@+id/btnBack" android:layout_width="30dp" android:layout_height="30dp" android:background="@android:color/transparent" android:src="@drawable/ic_back" android:tint="@color/neon_cyan" android:contentDescription="Back" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Quote Generator" android:textColor="@color/neon_cyan" android:textSize="18sp" android:fontFamily="@font/orbitron_bold" />
+        </LinearLayout>
+
+        <ImageView android:id="@+id/ivQuotePreview" android:layout_width="match_parent" android:layout_height="350dp" android:scaleType="centerCrop" android:background="@drawable/bg_video_border" />
+
+        <EditText android:id="@+id/etQuote" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:hint="Type your quote..." android:textColorHint="#888888" android:textColor="@color/text_white" android:padding="14dp" android:minLines="2" android:background="@drawable/bg_card_rounded" android:fontFamily="sans-serif-condensed" />
+
+        <EditText android:id="@+id/etAuthor" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:hint="Author (optional)" android:textColorHint="#888888" android:textColor="@color/text_white" android:padding="14dp" android:background="@drawable/bg_card_rounded" android:fontFamily="sans-serif-condensed" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center" android:layout_marginTop="14dp">
+            <View android:id="@+id/swatch1" android:layout_width="36dp" android:layout_height="36dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_logo" android:backgroundTint="#0A0A12" />
+            <View android:id="@+id/swatch2" android:layout_width="36dp" android:layout_height="36dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_logo" android:backgroundTint="#1B2A4A" />
+            <View android:id="@+id/swatch3" android:layout_width="36dp" android:layout_height="36dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_logo" android:backgroundTint="#1B4A2A" />
+            <View android:id="@+id/swatch4" android:layout_width="36dp" android:layout_height="36dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_logo" android:backgroundTint="#4A1B1B" />
+            <View android:id="@+id/swatch5" android:layout_width="36dp" android:layout_height="36dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_logo" android:backgroundTint="#3A1B4A" />
+        </LinearLayout>
+
+        <Button android:id="@+id/btnSaveQuote" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Save to Gallery" android:backgroundTint="@color/neon_cyan" android:textColor="@color/text_white" android:fontFamily="sans-serif-condensed" />
+        <Button android:id="@+id/btnShareQuote" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="Share" android:backgroundTint="@color/neon_purple" android:textColor="@color/text_white" android:fontFamily="sans-serif-condensed" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

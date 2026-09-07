@@ -64,6 +64,21 @@
             android:name=".AboutActivity"
             android:exported="false"
             android:theme="@style/Theme.RyuuTools" />
+        
+        <provider
+    android:name="androidx.core.content.FileProvider"
+    android:authorities="com.ryuutools.app.fileprovider"
+    android:exported="false"
+    android:grantUriPermissions="true">
+    <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/file_paths" />
+</provider>
+
+<activity android:name=".IQCGeneratorActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+<activity android:name=".WindowsDialogActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+<activity android:name=".CertificateGeneratorActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+<activity android:name=".ProfileCardActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
 
     </application>
 </manifest>

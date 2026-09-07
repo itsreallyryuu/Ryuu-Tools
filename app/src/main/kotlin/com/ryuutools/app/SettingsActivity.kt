@@ -68,13 +68,13 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btnFeedback).setOnClickListener {
-            try {
-                startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://whatsapp.com/channel/0029VbC4xiq3wtbC3VsYt127")))
-            } catch (e: Exception) {
-                Toast.makeText(this, "Unable to open link.", Toast.LENGTH_SHORT).show()
-            }
-        }
+    try {
+        startActivity(Intent(Intent.ACTION_VIEW,
+            Uri.parse("https://github.com/itsreallyryuu/Ryuu-Tools/issues/new")))
+    } catch (e: Exception) {
+        Toast.makeText(this, "Unable to open link.", Toast.LENGTH_SHORT).show()
+    }
+}
     }
 
     private fun checkForUpdatesNow() {

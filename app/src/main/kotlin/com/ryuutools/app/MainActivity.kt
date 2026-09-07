@@ -77,14 +77,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     findViewById<View>(R.id.menuFeedback).setOnClickListener {
-        drawerLayout.closeDrawer(GravityCompat.START)
-        try {
-            startActivity(Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://whatsapp.com/channel/0029VbC4xiq3wtbC3VsYt127")))
-        } catch (e: Exception) {
-            Toast.makeText(this, "Unable to open link.", Toast.LENGTH_SHORT).show()
-        }
+    drawerLayout.closeDrawer(GravityCompat.START)
+    try {
+        startActivity(Intent(Intent.ACTION_VIEW,
+            Uri.parse("https://github.com/itsreallyryuu/Ryuu-Tools/issues/new")))
+    } catch (e: Exception) {
+        Toast.makeText(this, "Unable to open link.", Toast.LENGTH_SHORT).show()
     }
+}
 
     findViewById<View>(R.id.menuAbout).setOnClickListener {
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -202,7 +202,11 @@ class MainActivity : AppCompatActivity() {
         ToolItem("TikTok Downloader", R.drawable.ic_tiktok, true),
         ToolItem("Network Scan", R.drawable.ic_network, true),
         ToolItem("IP Checker", R.drawable.ic_ip, true),
-        ToolItem("Speed Test", R.drawable.ic_speed, true)
+        ToolItem("Speed Test", R.drawable.ic_speed, true),
+        ToolItem("Quote Generator", R.drawable.ic_quote, true),
+        ToolItem("Windows Quotes", R.drawable.ic_windows, true),
+        ToolItem("Sertifikat Tolol", R.drawable.ic_certificate, true),
+        ToolItem("Profile Card", R.drawable.ic_profile, true)
     )
 
     rv.adapter = ToolsAdapter(tools) { item ->
@@ -212,6 +216,10 @@ class MainActivity : AppCompatActivity() {
             "IP Checker" -> startActivity(Intent(this, IPCheckerActivity::class.java))
             "Speed Test" -> startActivity(Intent(this, SpeedTestActivity::class.java))
             "Network Scan" -> startActivity(Intent(this, NetworkScanActivity::class.java))
+            "Quote Generator" -> startActivity(Intent(this, IQCGeneratorActivity::class.java))
+            "Windows Quotes" -> startActivity(Intent(this, WindowsDialogActivity::class.java))
+            "Sertifikat Tolol" -> startActivity(Intent(this, CertificateGeneratorActivity::class.java))
+            "Profile Card" -> startActivity(Intent(this, ProfileCardActivity::class.java))
         }
     }
 }
