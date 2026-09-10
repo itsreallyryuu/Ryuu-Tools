@@ -7,4 +7,25 @@
         <item name="android:statusBarColor">@color/bg_dark</item>
         <item name="android:navigationBarColor">@color/bg_dark</item>
     </style>
+    <style name="CalcButton">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">54dp</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:layout_margin">3dp</item>
+    <item name="android:textSize">18sp</item>
+    <item name="android:textColor">@color/text_white</item>
+    <item name="android:backgroundTint">#1A1A28</item>
+    <item name="android:fontFamily">sans-serif-condensed</item>
+</style>
+
+<style name="CalcFuncButton">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">40dp</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:layout_margin">2dp</item>
+    <item name="android:textSize">12sp</item>
+    <item name="android:textColor">@color/neon_cyan</item>
+    <item name="android:backgroundTint">#141420</item>
+    <item name="android:fontFamily">sans-serif-condensed</item>
+</style>
 </resources>

@@ -34,7 +34,7 @@ res = ["src/release/res"]
 resources = ["src/release/resources"]
 
 [dependencies]
-implementation = ["kotlin-stdlib", "com.google.android.material:material:1.14.0", "androidx.appcompat:appcompat:1.8.0", "androidx.recyclerview:recyclerview:1.4.0", "androidx.work:work-runtime:2.11.2"]
+implementation = ["kotlin-stdlib", "com.google.android.material:material:1.14.0", "androidx.appcompat:appcompat:1.8.0", "androidx.recyclerview:recyclerview:1.4.0", "androidx.work:work-runtime:2.11.2", "dev.rikka.shizuku:provider:13.1.5", "dev.rikka.shizuku:api:13.1.5"]
 
 [android]
 namespace = "com.ryuutools.app"
@@ -42,8 +42,8 @@ compileSdk = 36
 minSdk = 26
 targetSdk = 34
 manifest = "src/main/AndroidManifest.xml"
-versionCode = 1
-versionName = "1.0"
+versionCode = 2
+versionName = "2.0"
 isApplication = true
 manifestPlaceholders = []
 buildTypes = [{ name = "debug", debuggable = true, minifyEnabled = false, shrinkResources = false }, { name = "release", debuggable = false, minifyEnabled = false, shrinkResources = false, proguardFiles = ["proguard-android-optimize.txt", "proguard-rules.pro"] }]

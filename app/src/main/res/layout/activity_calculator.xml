@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg_dark">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="56dp" android:orientation="horizontal" android:gravity="center_vertical" android:paddingHorizontal="16dp">
+        <ImageButton android:id="@+id/btnBack" android:layout_width="26dp" android:layout_height="26dp" android:background="@android:color/transparent" android:src="@drawable/ic_back" android:tint="@color/neon_cyan" android:contentDescription="Back" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:text="Calculator" android:textColor="@color/neon_cyan" android:textSize="18sp" android:fontFamily="@font/orbitron_bold" />
+        <TextView android:id="@+id/btnToggleDegRad" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DEG" android:textColor="@color/neon_purple" android:textSize="13sp" android:padding="6dp" android:fontFamily="sans-serif-condensed" />
+        <TextView android:id="@+id/btnToggleHistory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="History" android:textColor="@color/neon_purple" android:textSize="13sp" android:padding="6dp" android:fontFamily="sans-serif-condensed" />
+    </LinearLayout>
+
+    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="16dp" android:gravity="bottom">
+            <TextView android:id="@+id/tvExpression" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="end" android:textColor="#888888" android:textSize="18sp" android:fontFamily="monospace" android:maxLines="2" android:ellipsize="start" />
+            <TextView android:id="@+id/tvResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="end" android:textColor="@color/text_white" android:textSize="42sp" android:fontFamily="monospace" android:text="0" android:layout_marginTop="8dp" android:maxLines="1" android:ellipsize="start" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHistory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_dark"
+            android:padding="16dp"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="6dp">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <Button android:id="@+id/btnMC" style="@style/CalcFuncButton" android:text="MC" />
+            <Button android:id="@+id/btnMS" style="@style/CalcFuncButton" android:text="MS" />
+            <Button android:id="@+id/btnMPlus" style="@style/CalcFuncButton" android:text="M+" />
+            <Button android:id="@+id/btnMMinus" style="@style/CalcFuncButton" android:text="M-" />
+            <Button android:id="@+id/btnMR" style="@style/CalcFuncButton" android:text="MR" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <Button android:id="@+id/btnSin" style="@style/CalcFuncButton" android:text="sin" />
+            <Button android:id="@+id/btnCos" style="@style/CalcFuncButton" android:text="cos" />
+            <Button android:id="@+id/btnTan" style="@style/CalcFuncButton" android:text="tan" />
+            <Button android:id="@+id/btnSqrt" style="@style/CalcFuncButton" android:text="√" />
+            <Button android:id="@+id/btnFactorial" style="@style/CalcFuncButton" android:text="x!" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <Button android:id="@+id/btnLog" style="@style/CalcFuncButton" android:text="log" />
+            <Button android:id="@+id/btnLn" style="@style/CalcFuncButton" android:text="ln" />
+            <Button android:id="@+id/btnPow" style="@style/CalcFuncButton" android:text="x^y" />
+            <Button android:id="@+id/btnPi" style="@style/CalcFuncButton" android:text="π" />
+            <Button android:id="@+id/btnE" style="@style/CalcFuncButton" android:text="e" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <Button android:id="@+id/btnAC" style="@style/CalcButton" android:text="AC" android:backgroundTint="@color/neon_purple" />
+            <Button android:id="@+id/btnParenOpen" style="@style/CalcButton" android:text="(" />
+            <Button android:id="@+id/btnParenClose" style="@style/CalcButton" android:text=")" />
+            <Button android:id="@+id/btnPercent" style="@style/CalcButton" android:text="%" />
+            <Button android:id="@+id/btnDivide" style="@style/CalcButton" android:text="÷" android:backgroundTint="@color/neon_cyan" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <Button android:id="@+id/btn7" style="@style/CalcButton" android:text="7" />
+            <Button android:id="@+id/btn8" style="@style/CalcButton" android:text="8" />
+            <Button android:id="@+id/btn9" style="@style/CalcButton" android:text="9" />
+            <Button android:id="@+id/btnDel" style="@style/CalcButton" android:text="DEL" android:backgroundTint="@color/neon_purple" />
+            <Button android:id="@+id/btnMultiply" style="@style/CalcButton" android:text="×" android:backgroundTint="@color/neon_cyan" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <Button android:id="@+id/btn4" style="@style/CalcButton" android:text="4" />
+            <Button android:id="@+id/btn5" style="@style/CalcButton" android:text="5" />
+            <Button android:id="@+id/btn6" style="@style/CalcButton" android:text="6" />
+            <Button android:id="@+id/btnPlaceholder1" style="@style/CalcButton" android:text="" android:enabled="false" android:backgroundTint="@android:color/transparent" />
+            <Button android:id="@+id/btnMinus" style="@style/CalcButton" android:text="−" android:backgroundTint="@color/neon_cyan" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <Button android:id="@+id/btn1" style="@style/CalcButton" android:text="1" />
+            <Button android:id="@+id/btn2" style="@style/CalcButton" android:text="2" />
+            <Button android:id="@+id/btn3" style="@style/CalcButton" android:text="3" />
+            <Button android:id="@+id/btnPlaceholder2" style="@style/CalcButton" android:text="" android:enabled="false" android:backgroundTint="@android:color/transparent" />
+            <Button android:id="@+id/btnPlus" style="@style/CalcButton" android:text="+" android:backgroundTint="@color/neon_cyan" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <Button android:id="@+id/btn0" style="@style/CalcButton" android:text="0" android:layout_weight="2" />
+            <Button android:id="@+id/btnDot" style="@style/CalcButton" android:text="." />
+            <Button android:id="@+id/btnEquals" style="@style/CalcButton" android:text="=" android:layout_weight="2" android:backgroundTint="@color/neon_cyan" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

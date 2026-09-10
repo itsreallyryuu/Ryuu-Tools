@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg_dark">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
+            <ImageButton android:id="@+id/btnBack" android:layout_width="30dp" android:layout_height="30dp" android:background="@android:color/transparent" android:src="@drawable/ic_back" android:tint="@color/neon_cyan" android:contentDescription="Back" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="System Boost" android:textColor="@color/neon_cyan" android:textSize="18sp" android:fontFamily="@font/orbitron_bold" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/bg_card_rounded" android:padding="18dp">
+
+            <TextView android:id="@+id/tvRootModeStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Root Mode: Not Active" android:textColor="@color/text_white" android:textSize="16sp" android:fontFamily="@font/orbitron_bold" />
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="Root Mode powers advanced features across the app, like Gaming Mode and Memory Sweep, which you'll find on the Dashboard." android:textColor="#888888" android:textSize="12sp" android:fontFamily="sans-serif-condensed" />
+
+            <Button android:id="@+id/btnConnectRootMode" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:text="Connect Root Mode" android:backgroundTint="@color/neon_cyan" android:textColor="@color/text_white" android:fontFamily="sans-serif-condensed" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnHowTo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:gravity="center"
+                android:text="How to Connect"
+                android:background="@drawable/bg_button_outline_cyan"
+                app:backgroundTint="@null"
+                android:textColor="@color/text_white"
+                android:textAllCaps="false"
+                android:fontFamily="sans-serif-condensed" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnTestConnection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:gravity="center"
+                android:text="Test Connection"
+                android:background="@drawable/bg_button_outline_purple"
+                app:backgroundTint="@null"
+                android:textColor="@color/text_white"
+                android:textAllCaps="false"
+                android:fontFamily="sans-serif-condensed" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

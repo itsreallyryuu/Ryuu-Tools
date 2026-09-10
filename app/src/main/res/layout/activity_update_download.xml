@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_dark"
+    android:gravity="center"
+    android:padding="32dp">
+
+    <TextView
+        android:id="@+id/tvUpdateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Downloading Update"
+        android:textColor="@color/neon_cyan"
+        android:textSize="20sp"
+        android:fontFamily="@font/orbitron_bold" />
+
+    <TextView
+        android:id="@+id/tvUpdateVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="#888888"
+        android:textSize="13sp"
+        android:fontFamily="sans-serif-condensed" />
+
+    <ProgressBar
+        android:id="@+id/progressUpdate"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:max="100"
+        android:progress="0" />
+
+    <TextView
+        android:id="@+id/tvUpdatePercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="0%"
+        android:textColor="@color/text_white"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-condensed" />
+
+    <TextView
+        android:id="@+id/tvUpdateStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="Preparing download..."
+        android:textColor="@color/text_white"
+        android:textSize="13sp"
+        android:fontFamily="sans-serif-condensed" />
+
+    <Button
+        android:id="@+id/btnCancelUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Cancel"
+        android:visibility="gone" />
+
+</LinearLayout>

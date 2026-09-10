@@ -8,7 +8,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
-class AboutActivity : AppCompatActivity() {
+class AboutActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
@@ -20,13 +20,9 @@ class AboutActivity : AppCompatActivity() {
         } catch (e: Exception) { "Unknown" }
         findViewById<TextView>(R.id.tvAboutVersion).text = "Version $versionName"
 
-        findViewById<Button>(R.id.btnAboutWhatsapp).setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://whatsapp.com/channel/0029VbC4xiq3wtbC3VsYt127")))
+        findViewById<Button>(R.id.btnAboutDonate).setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://saweria.co/itsmeryuu")))
         }
-        findViewById<Button>(R.id.btnAboutTiktok).setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://vm.tiktok.com/ZS9S8ftJeT1dt-imXTA/")))
-        }
+        
     }
 }

@@ -1,7 +1,9 @@
-v=3
+v=4
 repos=https://repo1.maven.org/maven2,https://dl.google.com/android/maven2
 app|androidx.appcompat:appcompat:1.8.0|
 app|androidx.recyclerview:recyclerview:1.4.0|
 app|androidx.work:work-runtime:2.11.2|
 app|com.google.android.material:material:1.14.0|
+app|dev.rikka.shizuku:api:13.1.5|
+app|dev.rikka.shizuku:provider:13.1.5|
 app|kotlin-stdlib|

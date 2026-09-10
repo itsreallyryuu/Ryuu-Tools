@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- ===== KONTEN UTAMA ===== -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +14,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- HEADER BAR -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -45,7 +43,6 @@
 
             </LinearLayout>
 
-            <!-- VIDEO BANNER -->
             <FrameLayout
                 android:id="@+id/videoContainer"
                 android:layout_width="match_parent"
@@ -62,7 +59,6 @@
                     android:layout_gravity="center" />
             </FrameLayout>
 
-            <!-- KARTU INFO PERANGKAT -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,10 +77,19 @@
                     android:fontFamily="@font/orbitron_bold" />
 
                 <TextView
-                    android:id="@+id/tvCpuInfo"
+                    android:id="@+id/tvNetworkStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:textColor="@color/text_white"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-condensed" />
+
+                <TextView
+                    android:id="@+id/tvCpuInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:textColor="@color/text_white"
                     android:textSize="13sp"
                     android:fontFamily="sans-serif-condensed" />
@@ -118,47 +123,6 @@
 
             </LinearLayout>
 
-            <!-- TOMBOL WHATSAPP & TIKTOK -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginBottom="8dp"
-                android:paddingHorizontal="16dp">
-
-                <Button
-                    android:id="@+id/btnWhatsapp"
-                    style="@style/Widget.AppCompat.Button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="6dp"
-                    android:text="WhatsApp"
-                    android:fontFamily="sans-serif-condensed"
-                    android:drawableStart="@drawable/ic_whatsapp"
-                    android:drawableTint="@color/neon_purple"
-                    android:drawablePadding="8dp"
-                    android:background="@drawable/bg_button_outline_purple"
-                    android:textColor="@color/text_white" />
-
-                <Button
-                    android:id="@+id/btnTiktok"
-                    style="@style/Widget.AppCompat.Button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="6dp"
-                    android:text="TikTok"
-                    android:fontFamily="sans-serif-condensed"
-                    android:drawableStart="@drawable/ic_tiktok"
-                    android:drawableTint="@color/neon_cyan"
-                    android:drawablePadding="8dp"
-                    android:background="@drawable/bg_button_outline_cyan"
-                    android:textColor="@color/text_white" />
-
-            </LinearLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -179,7 +143,6 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- ===== SIDEBAR ===== -->
     <LinearLayout
         android:layout_width="260dp"
         android:layout_height="match_parent"
@@ -264,6 +227,67 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/menuSystemBoost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_boost"
+                android:tint="@color/neon_cyan" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="14dp"
+                android:text="System Boost"
+                android:textColor="@color/text_white"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-condensed" />
+
+            <View
+                android:id="@+id/dotSystemBoostStatus"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/dot_indicator" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menuDonate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_heart"
+                android:tint="@color/neon_cyan" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:text="Donate"
+                android:textColor="@color/text_white"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-condensed" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/menuShare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -291,31 +315,31 @@
         </LinearLayout>
 
         <LinearLayout
-    android:id="@+id/menuFeedback"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:padding="12dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:background="?android:attr/selectableItemBackground">
+            android:id="@+id/menuFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground">
 
-    <ImageView
-    android:layout_width="22dp"
-    android:layout_height="22dp"
-    android:src="@drawable/ic_info"
-    android:tint="@color/neon_cyan" />
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_info"
+                android:tint="@color/neon_cyan" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:text="Feedback"
-        android:textColor="@color/text_white"
-        android:textSize="14sp"
-        android:fontFamily="sans-serif-condensed" />
-</LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:text="Feedback"
+                android:textColor="@color/text_white"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-condensed" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/menuAbout"

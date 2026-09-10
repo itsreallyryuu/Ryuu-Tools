@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg_dark">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
+            <ImageButton android:id="@+id/btnBack" android:layout_width="30dp" android:layout_height="30dp" android:background="@android:color/transparent" android:src="@drawable/ic_back" android:tint="@color/neon_cyan" android:contentDescription="Back" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Memory Sweep" android:textColor="@color/neon_cyan" android:textSize="18sp" android:fontFamily="@font/orbitron_bold" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/bg_card_rounded" android:padding="18dp">
+
+            <TextView android:id="@+id/tvRamInfo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="RAM: -- / -- GB free" android:textColor="@color/text_white" android:textSize="16sp" android:fontFamily="@font/orbitron_bold" />
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="Closes background apps from the Play Store (not system apps). Android automatically uses free RAM for caching other apps, so the number may not stay high — this is normal Android behavior, not a failure." android:textColor="#888888" android:textSize="12sp" android:fontFamily="sans-serif-condensed" />
+
+            <Button android:id="@+id/btnCleanNow" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:text="Clean Now" android:backgroundTint="@color/neon_cyan" android:textColor="@color/text_white" android:fontFamily="sans-serif-condensed" />
+
+            <ProgressBar android:id="@+id/progressBar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginTop="12dp" android:indeterminateTint="@color/neon_purple" android:visibility="gone" />
+
+            <TextView android:id="@+id/tvResult" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:gravity="center" android:text="" android:textColor="@color/neon_cyan" android:textSize="13sp" android:fontFamily="sans-serif-condensed" />
+
+        </LinearLayout>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:layout_marginStart="4dp" android:text="Automation" android:textColor="@color/text_white" android:textSize="14sp" android:fontFamily="@font/orbitron_bold" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/bg_card_rounded" android:padding="16dp" android:layout_marginTop="10dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Auto Sweep Every 2 Hours" android:textColor="@color/text_white" android:textSize="13sp" android:fontFamily="sans-serif-condensed" />
+                <Switch android:id="@+id/switchAutoSweep" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@color/switch_thumb_selector" android:trackTint="@color/switch_track_selector" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

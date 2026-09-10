@@ -24,7 +24,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
 
-class TikTokDownloaderActivity : AppCompatActivity() {
+class TikTokDownloaderActivity : BaseActivity() {
 
     private var videoUrl: String? = null
     private var audioUrl: String? = null
@@ -50,20 +50,28 @@ class TikTokDownloaderActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btnFetch).setOnClickListener {
-            val link = etLink.text.toString().trim()
-            if (link.isEmpty()) {
-                Toast.makeText(this, "Paste a TikTok link first", Toast.LENGTH_SHORT).show()
-            } else {
-                fetchInfo(link)
+    val link = etLink.text.toString().trim()
+    if (link.isEmpty()) {
+        Toast.makeText(this, "Paste a TikTok link first", Toast.LENGTH_SHORT).show()
+    } else if (!NetworkUtils.isOnline(this)) {
+        NetworkUtils.showOfflineWarning(this)
+    } else {
+        fetchInfo(link)
+    }
+}
+
+        findViewById<Button>(R.id.btnDownloadVideo).setOnClickListener {
+            videoUrl?.let {
+                Toast.makeText(this, "Downloading video...", Toast.LENGTH_SHORT).show()
+                downloadFile(it, "${baseFileName}.mp4", "RyuuTools")
             }
         }
 
-        findViewById<Button>(R.id.btnDownloadVideo).setOnClickListener {
-            videoUrl?.let { downloadFile(it, "${baseFileName}.mp4", "RyuuTools") }
-        }
-
         findViewById<Button>(R.id.btnDownloadAudio).setOnClickListener {
-            audioUrl?.let { downloadFile(it, "${baseFileName}_audio.mp3", "RyuuTools") }
+            audioUrl?.let {
+                Toast.makeText(this, "Downloading audio...", Toast.LENGTH_SHORT).show()
+                downloadFile(it, "${baseFileName}_audio.mp3", "RyuuTools")
+            }
         }
 
         findViewById<Button>(R.id.btnDownloadAllPhotos).setOnClickListener {
@@ -127,13 +135,13 @@ class TikTokDownloaderActivity : AppCompatActivity() {
                 val isPhotoPost = imagesArray != null && imagesArray.length() > 0
 
                 if (isPhotoPost) {
-    val nonNullImages = imagesArray ?: org.json.JSONArray()
-    val list = mutableListOf<String>()
-    for (i in 0 until nonNullImages.length()) {
-        list.add(nonNullImages.getString(i))
-    }
-    imageUrls = list
-    videoUrl = null
+                    val nonNullImages = imagesArray ?: org.json.JSONArray()
+                    val list = mutableListOf<String>()
+                    for (i in 0 until nonNullImages.length()) {
+                        list.add(nonNullImages.getString(i))
+                    }
+                    imageUrls = list
+                    videoUrl = null
 
                 } else {
                     val hd = data.optString("hdplay")
@@ -166,6 +174,7 @@ class TikTokDownloaderActivity : AppCompatActivity() {
                         val rv = findViewById<RecyclerView>(R.id.rvPhotos)
                         rv.layoutManager = GridLayoutManager(this, 2)
                         rv.adapter = PhotoAdapter(imageUrls) { url, index ->
+                            Toast.makeText(this, "Downloading photo ${index + 1}...", Toast.LENGTH_SHORT).show()
                             downloadFile(url, "${baseFileName}_photo_${index + 1}.jpg", "RyuuTools")
                         }
                     } else {

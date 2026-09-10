@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_dark">
@@ -176,15 +177,19 @@
                 android:fontFamily="sans-serif-condensed"
                 android:visibility="gone" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnReset"
-                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:text="Download Another Link"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:gravity="center"
                 android:background="@drawable/bg_button_outline_cyan"
-                android:textColor="@color/neon_cyan"
+                app:backgroundTint="@null"
+                android:textColor="@color/text_white"
+                android:textAllCaps="false"
                 android:fontFamily="sans-serif-condensed" />
 
         </LinearLayout>

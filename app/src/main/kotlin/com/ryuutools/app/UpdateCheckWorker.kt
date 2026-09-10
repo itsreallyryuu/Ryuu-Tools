@@ -6,7 +6,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -42,17 +41,28 @@ class UpdateCheckWorker(context: Context, params: WorkerParameters) : Worker(con
 
             val json = JSONObject(response)
             val latestTag = json.optString("tag_name", "").removePrefix("v")
-            val downloadUrl = json.optJSONArray("assets")
-                ?.optJSONObject(0)
-                ?.optString("browser_download_url")
-                ?: json.optString("html_url")
+
+            // Cari asset yang benar-benar .apk, bukan asal ambil asset pertama
+            // (release GitHub bisa punya source zip/tarball juga)
+            val assets = json.optJSONArray("assets")
+            var apkDownloadUrl: String? = null
+            if (assets != null) {
+                for (i in 0 until assets.length()) {
+                    val asset = assets.optJSONObject(i)
+                    val name = asset?.optString("name", "") ?: ""
+                    if (name.endsWith(".apk", ignoreCase = true)) {
+                        apkDownloadUrl = asset?.optString("browser_download_url")
+                        break
+                    }
+                }
+            }
 
             val currentVersion = applicationContext.packageManager
                 .getPackageInfo(applicationContext.packageName, 0).versionName ?: "0"
 
             val isNewer = latestTag.isNotBlank() && isNewerVersion(latestTag, currentVersion)
-            if (isNewer) {
-                showUpdateNotification(latestTag, downloadUrl)
+            if (isNewer && apkDownloadUrl != null) {
+                showUpdateNotification(latestTag, apkDownloadUrl)
             }
 
             val output = workDataOf(
@@ -80,7 +90,7 @@ class UpdateCheckWorker(context: Context, params: WorkerParameters) : Worker(con
         }
     }
 
-    private fun showUpdateNotification(version: String, downloadUrl: String) {
+    private fun showUpdateNotification(version: String, apkDownloadUrl: String) {
         if (Build.VERSION.SDK_INT >= 33 &&
             ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS)
             != PackageManager.PERMISSION_GRANTED
@@ -88,8 +98,11 @@ class UpdateCheckWorker(context: Context, params: WorkerParameters) : Worker(con
             return
         }
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(downloadUrl))
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            val intent = Intent(applicationContext, UpdateDownloadActivity::class.java).apply {
+                putExtra("apk_url", apkDownloadUrl)
+                putExtra("version", version)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
             val pendingIntent = PendingIntent.getActivity(
                 applicationContext, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -98,7 +111,7 @@ class UpdateCheckWorker(context: Context, params: WorkerParameters) : Worker(con
             val notification = NotificationCompat.Builder(applicationContext, NotificationHelper.UPDATE_CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.stat_sys_download)
                 .setContentTitle("Update Available — v$version")
-                .setContentText("Tap to download the latest version of Ryuu Tools.")
+                .setContentText("Tap to download and install the latest version of Ryuu Tools.")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)

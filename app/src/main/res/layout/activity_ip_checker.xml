@@ -39,6 +39,58 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/etIpInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Enter an IP address..."
+                android:textColorHint="#666666"
+                android:textColor="@color/text_white"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-condensed"
+                android:background="@drawable/bg_card_rounded"
+                android:padding="12dp"
+                android:inputType="text"
+                android:singleLine="true" />
+
+            <Button
+                android:id="@+id/btnCheckIp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Check" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnUseMyIp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="Use My IP"
+            android:backgroundTint="@color/neon_purple"
+            android:textColor="@color/text_white"
+            android:fontFamily="sans-serif-condensed" />
+
+        <TextView
+            android:id="@+id/tvLocalIpRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_rounded"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="Your device's local IP: --"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-condensed" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/bg_card_rounded"
             android:padding="18dp">
@@ -53,10 +105,11 @@
                 android:fontFamily="@font/orbitron_bold" />
 
             <TextView
+                android:id="@+id/tvIpLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="Public IP Address"
+                android:text="Your Public IP Address"
                 android:textColor="#888888"
                 android:textSize="11sp"
                 android:fontFamily="sans-serif-condensed" />
@@ -66,29 +119,6 @@
                 android:layout_height="1dp"
                 android:background="#2A2A38"
                 android:layout_marginVertical="14dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Local IP"
-                    android:textColor="#888888"
-                    android:textSize="12sp"
-                    android:fontFamily="sans-serif-condensed" />
-                <TextView
-                    android:id="@+id/tvLocalIp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="--"
-                    android:textColor="@color/text_white"
-                    android:textSize="12sp"
-                    android:fontFamily="sans-serif-condensed" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -162,7 +192,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -181,6 +212,51 @@
                     android:fontFamily="sans-serif-condensed" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Timezone"
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-condensed" />
+                <TextView
+                    android:id="@+id/tvTimezone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/text_white"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-condensed" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Type"
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-condensed" />
+                <TextView
+                    android:id="@+id/tvIpType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/text_white"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-condensed" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <ProgressBar
@@ -191,16 +267,6 @@
             android:layout_marginTop="16dp"
             android:indeterminateTint="@color/neon_purple"
             android:visibility="gone" />
-
-        <Button
-            android:id="@+id/btnRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Refresh"
-            android:backgroundTint="@color/neon_cyan"
-            android:textColor="@color/text_white"
-            android:fontFamily="sans-serif-condensed" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

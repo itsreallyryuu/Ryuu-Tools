@@ -36,15 +36,63 @@
                 android:fontFamily="@font/orbitron_bold" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvLocalIpInfo"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:background="@drawable/bg_card_rounded"
-            android:padding="14dp"
-            android:text="Your IP: --"
-            android:textColor="@color/text_white"
-            android:textSize="13sp"
+            android:padding="14dp">
+
+            <TextView
+                android:id="@+id/tvLocalIpInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your IP: --"
+                android:textColor="@color/text_white"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-condensed" />
+
+            <TextView
+                android:id="@+id/tvGatewayInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Gateway: --"
+                android:textColor="@color/text_white"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-condensed" />
+
+            <TextView
+                android:id="@+id/tvSubnetInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Subnet Mask: --"
+                android:textColor="@color/text_white"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-condensed" />
+
+            <TextView
+                android:id="@+id/tvDnsInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="DNS: --"
+                android:textColor="@color/text_white"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-condensed" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvLastScanInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="No previous scan found"
+            android:textColor="#666666"
+            android:textSize="11sp"
             android:fontFamily="sans-serif-condensed" />
 
         <Button
@@ -80,12 +128,50 @@
             android:textSize="12sp"
             android:fontFamily="sans-serif-condensed" />
 
+        <LinearLayout
+            android:id="@+id/filterSortRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btnToggleFilter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="Show All"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif-condensed" />
+
+            <Button
+                android:id="@+id/btnToggleSort"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="Sort: Default"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif-condensed" />
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvDevices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:nestedScrollingEnabled="false" />
+
+        <Button
+            android:id="@+id/btnExportResults"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Export Results"
+            android:visibility="gone" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

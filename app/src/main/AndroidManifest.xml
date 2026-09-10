@@ -4,6 +4,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:name=".RyuuApplication"
@@ -15,6 +22,24 @@
         android:usesCleartextTraffic="false"
         android:supportsRtl="true">
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.ryuutools.app.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="com.ryuutools.app.shizuku"
+            android:multiprocess="false"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
         <activity
             android:name=".SplashActivity"
             android:exported="true"
@@ -25,60 +50,41 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".MainActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".TikTokDownloaderActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".ThermalMonitorActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".IPCheckerActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".SpeedTestActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".NetworkScanActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".SettingsActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".AboutActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".IQCGeneratorActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".WindowsDialogActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".CertificateGeneratorActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".WhatsAppChatActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".TanyaUstadActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".SystemBoostActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".GamingModeActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".MemorySweepActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".LiveStatsActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".AppManagerActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".UpdateDownloadActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".TerminalActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".AppPickerActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".VpnActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".CalculatorActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
 
-        <activity
-            android:name=".TikTokDownloaderActivity"
-            android:exported="false"
-            android:theme="@style/Theme.RyuuTools" />
+<service
+    android:name=".RyuuVpnService"
+    android:permission="android.permission.BIND_VPN_SERVICE"
+    android:exported="true">
+    <intent-filter>
+        <action android:name="android.net.VpnService" />
+    </intent-filter>
+</service>
 
-        <activity
-            android:name=".ThermalMonitorActivity"
-            android:exported="false"
-            android:theme="@style/Theme.RyuuTools" />
-
-        <activity
-            android:name=".IPCheckerActivity"
-            android:exported="false"
-            android:theme="@style/Theme.RyuuTools" />
-
-        <activity
-            android:name=".SpeedTestActivity"
-            android:exported="false"
-            android:theme="@style/Theme.RyuuTools" />
-
-        <activity
-            android:name=".NetworkScanActivity"
-            android:exported="false"
-            android:theme="@style/Theme.RyuuTools" />
-
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.RyuuTools" />
-
-        <activity
-            android:name=".AboutActivity"
-            android:exported="false"
-            android:theme="@style/Theme.RyuuTools" />
-        
-        <provider
-    android:name="androidx.core.content.FileProvider"
-    android:authorities="com.ryuutools.app.fileprovider"
-    android:exported="false"
-    android:grantUriPermissions="true">
-    <meta-data
-        android:name="android.support.FILE_PROVIDER_PATHS"
-        android:resource="@xml/file_paths" />
-</provider>
-
-<activity android:name=".IQCGeneratorActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
-<activity android:name=".WindowsDialogActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
-<activity android:name=".CertificateGeneratorActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
-<activity android:name=".ProfileCardActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <service android:name=".LiveStatsService" android:exported="false" />
+        <service android:name=".TerminalSessionService" android:exported="false" />
 
     </application>
 </manifest>

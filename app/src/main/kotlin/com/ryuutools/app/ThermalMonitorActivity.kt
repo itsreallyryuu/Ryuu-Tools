@@ -1,6 +1,7 @@
 package com.ryuutools.app
 
 import android.Manifest
+import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
@@ -16,12 +17,11 @@ import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 
-class ThermalMonitorActivity : AppCompatActivity() {
+class ThermalMonitorActivity : BaseActivity() {
 
     private var batteryReceiver: BroadcastReceiver? = null
     private var hasNotifiedOverheat = false
@@ -134,20 +134,101 @@ class ThermalMonitorActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Step 1: lower brightness (instant, always safe).
+     * Step 2: force-stop heavy background apps (needs Shizuku/Root Mode).
+     * Step 3: radio reduction (WiFi/data off) is now OPT-IN via a confirmation
+     * dialog — NOT automatic. Turning off networking while the user is gaming
+     * online or using internet apps would be actively disruptive, so we ask
+     * first and clearly warn them to skip it in that situation.
+     */
     private fun performCoolDown() {
+        val btnCoolDown = findViewById<Button>(R.id.btnCoolDown)
+        btnCoolDown.isEnabled = false
+
         try {
             val layoutParams = window.attributes
             layoutParams.screenBrightness = 0.1f
             window.attributes = layoutParams
-
-            Toast.makeText(
-                this,
-                "Screen brightness lowered. For best results, also close other heavy apps manually.",
-                Toast.LENGTH_LONG
-            ).show()
         } catch (e: Exception) {
-            Toast.makeText(this, "Could not adjust brightness.", Toast.LENGTH_SHORT).show()
+            // Aman, brightness gagal diubah tidak boleh crash app
         }
+
+        Thread {
+            val shizukuConnected = ShizukuHelper.isAvailable() && ShizukuHelper.hasPermission()
+            var stoppedCount = 0
+
+            if (shizukuConnected) {
+                stoppedCount = sweepBackgroundApps(this)
+            }
+
+            Thread.sleep(400)
+
+            runOnUiThread {
+                if (shizukuConnected) {
+                    askAboutRadioReduction(stoppedCount)
+                } else {
+                    btnCoolDown.isEnabled = true
+                    Toast.makeText(
+                        this,
+                        "Brightness lowered. Connect Root Mode in System Boost to also close background apps.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }.start()
+    }
+
+    private fun askAboutRadioReduction(stoppedCount: Int) {
+        val btnCoolDown = findViewById<Button>(R.id.btnCoolDown)
+
+        AlertDialog.Builder(this)
+            .setTitle("Reduce Radio Activity Too?")
+            .setMessage(
+                "Turning off WiFi and mobile data can help cool the device a bit " +
+                "faster, but it will disconnect you from the internet.\n\n" +
+                "Skip this if you're currently gaming online or using anything " +
+                "that needs a connection."
+            )
+            .setPositiveButton("Turn Off WiFi/Data") { _, _ -> runRadioReduction(stoppedCount) }
+            .setNegativeButton("Skip") { _, _ ->
+                btnCoolDown.isEnabled = true
+                Toast.makeText(
+                    this,
+                    "Brightness lowered. Closed $stoppedCount background app(s).",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun runRadioReduction(stoppedCount: Int) {
+        val btnCoolDown = findViewById<Button>(R.id.btnCoolDown)
+
+        Thread {
+            val (wifiOk, _) = ShizukuHelper.runCommand("svc wifi disable")
+            val (dataOk, _) = ShizukuHelper.runCommand("svc data disable")
+            val radioReduced = wifiOk || dataOk
+
+            runOnUiThread {
+                btnCoolDown.isEnabled = true
+                val message = if (radioReduced) {
+                    "Brightness lowered. Closed $stoppedCount background app(s). WiFi/mobile data turned off."
+                } else {
+                    "Brightness lowered. Closed $stoppedCount background app(s). Couldn't reduce radio activity."
+                }
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+
+                if (radioReduced) {
+                    Toast.makeText(
+                        this,
+                        "Note: turn WiFi/data back on manually when you're done.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }.start()
     }
 
     override fun onDestroy() {

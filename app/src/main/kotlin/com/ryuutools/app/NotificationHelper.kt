@@ -8,6 +8,7 @@ import android.os.Build
 object NotificationHelper {
     const val THERMAL_CHANNEL_ID = "thermal_channel"
     const val UPDATE_CHANNEL_ID = "update_channel"
+    const val LIVE_STATS_CHANNEL_ID = "live_stats_channel"
 
     fun createChannels(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -24,6 +25,13 @@ object NotificationHelper {
                 "App Updates",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply { description = "Notifies when a new app update is available" }
+            
+            val liveStatsChannel = NotificationChannel(
+    LIVE_STATS_CHANNEL_ID,
+    "Live Stats Overlay",
+    NotificationManager.IMPORTANCE_LOW
+).apply { description = "Shows the ongoing notification while the Live Stats overlay is active" }
+manager?.createNotificationChannel(liveStatsChannel)
 
             manager?.createNotificationChannel(thermalChannel)
             manager?.createNotificationChannel(updateChannel)

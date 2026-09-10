@@ -142,6 +142,22 @@
       ]
     },
     {
+      "name": "dev.rikka.shizuku:provider:13.1.5",
+      "kind": "AAR",
+      "classes": [
+        "../../.platform/caches/resolved-deps/dev/rikka/shizuku/provider/13.1.5/provider-13.1.5-exploded/classes.jar",
+        "../../.platform/caches/resolved-deps/dev/rikka/shizuku/api/13.1.5/api-13.1.5-exploded/classes.jar",
+        "../../.platform/caches/resolved-deps/dev/rikka/shizuku/aidl/13.1.5/aidl-13.1.5-exploded/classes.jar",
+        "../../.platform/caches/resolved-deps/dev/rikka/shizuku/shared/13.1.5/shared-13.1.5-exploded/classes.jar"
+      ],
+      "sources": [
+        "../../.platform/caches/resolved-deps/dev/rikka/shizuku/provider/13.1.5/provider-13.1.5-sources.jar",
+        "../../.platform/caches/resolved-deps/dev/rikka/shizuku/api/13.1.5/api-13.1.5-sources.jar",
+        "../../.platform/caches/resolved-deps/dev/rikka/shizuku/aidl/13.1.5/aidl-13.1.5-sources.jar",
+        "../../.platform/caches/resolved-deps/dev/rikka/shizuku/shared/13.1.5/shared-13.1.5-sources.jar"
+      ]
+    },
+    {
       "name": "kotlin-stdlib",
       "kind": "JAR",
       "classes": [

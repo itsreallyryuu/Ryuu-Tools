@@ -14,14 +14,20 @@ import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.random.Random
 
-class SpeedTestActivity : AppCompatActivity() {
+class SpeedTestActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_speed_test)
 
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
-        findViewById<Button>(R.id.btnStartTest).setOnClickListener { runSpeedTest() }
+        findViewById<Button>(R.id.btnStartTest).setOnClickListener {
+    if (!NetworkUtils.isOnline(this)) {
+        NetworkUtils.showOfflineWarning(this)
+    } else {
+        runSpeedTest()
+    }
+}
     }
 
     private fun runSpeedTest() {

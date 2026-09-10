@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="Thermal Monitor"
+                android:text="Device Temperature"
                 android:textColor="@color/neon_cyan"
                 android:textSize="18sp"
                 android:fontFamily="@font/orbitron_bold" />
