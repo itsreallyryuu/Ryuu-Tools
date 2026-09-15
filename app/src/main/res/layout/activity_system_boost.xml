@@ -15,6 +15,30 @@
 
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="Root Mode powers advanced features across the app, like Gaming Mode and Memory Sweep, which you'll find on the Dashboard." android:textColor="#888888" android:textSize="12sp" android:fontFamily="sans-serif-condensed" />
 
+            <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/bg_card_rounded"
+    android:padding="16dp"
+    android:layout_marginBottom="14dp">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="System Boost Enabled"
+        android:textColor="@color/text_white"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-condensed" />
+    <Switch
+        android:id="@+id/switchSystemBoostEnabled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:thumbTint="@color/switch_thumb_selector"
+        android:trackTint="@color/switch_track_selector" />
+</LinearLayout>
+            
             <Button android:id="@+id/btnConnectRootMode" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:text="Connect Root Mode" android:backgroundTint="@color/neon_cyan" android:textColor="@color/text_white" android:fontFamily="sans-serif-condensed" />
 
             <androidx.appcompat.widget.AppCompatButton

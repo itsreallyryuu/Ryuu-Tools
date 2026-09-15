@@ -63,6 +63,16 @@ class UpdateCheckWorker(context: Context, params: WorkerParameters) : Worker(con
             val isNewer = latestTag.isNotBlank() && isNewerVersion(latestTag, currentVersion)
             if (isNewer && apkDownloadUrl != null) {
                 showUpdateNotification(latestTag, apkDownloadUrl)
+
+                // Simpan juga ke prefs supaya MainActivity bisa menawarkan dialog
+                // "Update Available" begitu user buka app, walau notifikasinya
+                // sudah kelewat/di-dismiss.
+                applicationContext.getSharedPreferences("ryuu_prefs", Context.MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("pending_update_available", true)
+                    .putString("pending_update_version", latestTag)
+                    .putString("pending_update_url", apkDownloadUrl)
+                    .apply()
             }
 
             val output = workDataOf(

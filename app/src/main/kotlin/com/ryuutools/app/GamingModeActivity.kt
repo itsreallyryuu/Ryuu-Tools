@@ -10,7 +10,6 @@ import android.provider.Settings
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ProgressBar
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
@@ -22,20 +21,10 @@ class GamingModeActivity : BaseActivity() {
     private lateinit var prefs: SharedPreferences
     private lateinit var tvStatus: TextView
     private lateinit var switchMaster: Switch
-    private lateinit var switchAnimations: Switch
-    private lateinit var switchDnd: Switch
-    private lateinit var switchRefreshRate: Switch
-    private lateinit var switchMaxBrightness: Switch
-    private lateinit var switchDisableBatterySaver: Switch
-    private lateinit var switchScreenTimeout: Switch
-    private lateinit var switchLockRotation: Switch
-    private lateinit var switchCleanOnStart: Switch
 
     private lateinit var rvBoostedApps: RecyclerView
     private lateinit var tvNoBoostedApps: TextView
     private lateinit var boostedAppsAdapter: BoostedAppsAdapter
-
-    private var isUpdatingUi = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,16 +33,12 @@ class GamingModeActivity : BaseActivity() {
         prefs = getSharedPreferences("ryuu_prefs", MODE_PRIVATE)
 
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
+        findViewById<ImageButton>(R.id.btnGamingSettings).setOnClickListener {
+            startActivity(Intent(this, GamingModeSettingsActivity::class.java))
+        }
+
         tvStatus = findViewById(R.id.tvGamingStatus)
         switchMaster = findViewById(R.id.switchGamingMaster)
-        switchAnimations = findViewById(R.id.switchAnimations)
-        switchDnd = findViewById(R.id.switchDnd)
-        switchRefreshRate = findViewById(R.id.switchRefreshRate)
-        switchMaxBrightness = findViewById(R.id.switchMaxBrightness)
-        switchDisableBatterySaver = findViewById(R.id.switchDisableBatterySaver)
-        switchScreenTimeout = findViewById(R.id.switchScreenTimeout)
-        switchLockRotation = findViewById(R.id.switchLockRotation)
-        switchCleanOnStart = findViewById(R.id.switchCleanOnStart)
 
         rvBoostedApps = findViewById(R.id.rvBoostedApps)
         tvNoBoostedApps = findViewById(R.id.tvNoBoostedApps)
@@ -65,33 +50,7 @@ class GamingModeActivity : BaseActivity() {
 
         val isActive = prefs.getBoolean("gaming_mode_active", false)
         switchMaster.isChecked = isActive
-        applySubSwitchUiState(isActive)
         updateStatusText(isActive)
-
-        switchAnimations.setOnCheckedChangeListener { _, checked ->
-            if (!isUpdatingUi) prefs.edit().putBoolean("gaming_opt_animations", checked).apply()
-        }
-        switchDnd.setOnCheckedChangeListener { _, checked ->
-            if (!isUpdatingUi) prefs.edit().putBoolean("gaming_opt_dnd", checked).apply()
-        }
-        switchRefreshRate.setOnCheckedChangeListener { _, checked ->
-            if (!isUpdatingUi) prefs.edit().putBoolean("gaming_opt_refresh", checked).apply()
-        }
-        switchMaxBrightness.setOnCheckedChangeListener { _, checked ->
-            if (!isUpdatingUi) prefs.edit().putBoolean("gaming_opt_brightness", checked).apply()
-        }
-        switchDisableBatterySaver.setOnCheckedChangeListener { _, checked ->
-            if (!isUpdatingUi) prefs.edit().putBoolean("gaming_opt_battery_saver", checked).apply()
-        }
-        switchScreenTimeout.setOnCheckedChangeListener { _, checked ->
-            if (!isUpdatingUi) prefs.edit().putBoolean("gaming_opt_timeout", checked).apply()
-        }
-        switchLockRotation.setOnCheckedChangeListener { _, checked ->
-            if (!isUpdatingUi) prefs.edit().putBoolean("gaming_opt_rotation", checked).apply()
-        }
-        switchCleanOnStart.setOnCheckedChangeListener { _, checked ->
-            if (!isUpdatingUi) prefs.edit().putBoolean("gaming_opt_clean_start", checked).apply()
-        }
 
         switchMaster.setOnCheckedChangeListener { _, checked ->
             if (checked && !ShizukuHelper.hasPermission()) {
@@ -99,7 +58,6 @@ class GamingModeActivity : BaseActivity() {
                 switchMaster.isChecked = false
                 return@setOnCheckedChangeListener
             }
-            applySubSwitchUiState(checked)
             if (checked) enableGamingMode() else disableGamingMode()
         }
     }
@@ -108,8 +66,6 @@ class GamingModeActivity : BaseActivity() {
         super.onResume()
         loadBoostedApps()
     }
-
-    // --- Boosted Apps (game launcher) ---
 
     private fun loadBoostedApps() {
         val packageNames = prefs.getStringSet("gaming_boosted_apps", emptySet()) ?: emptySet()
@@ -123,7 +79,6 @@ class GamingModeActivity : BaseActivity() {
                 val icon = pm.getApplicationIcon(pkg)
                 validEntries.add(BoostedAppEntry(pkg, label, icon))
             } catch (e: PackageManager.NameNotFoundException) {
-                // App sudah di-uninstall sejak ditambahkan — dibersihkan otomatis
                 staleFound = true
             }
         }
@@ -153,11 +108,6 @@ class GamingModeActivity : BaseActivity() {
         loadBoostedApps()
     }
 
-    /**
-     * Turns Gaming Mode on first (if it isn't already), then launches the app.
-     * If Shizuku isn't connected, we skip straight to launching — the app should
-     * still open normally, it just won't get the performance optimizations.
-     */
     private fun launchBoostedApp(pkg: String) {
         val launchIntent = packageManager.getLaunchIntentForPackage(pkg)
         if (launchIntent == null) {
@@ -167,38 +117,10 @@ class GamingModeActivity : BaseActivity() {
         }
 
         if (!switchMaster.isChecked && ShizukuHelper.hasPermission()) {
-            switchMaster.isChecked = true // triggers enableGamingMode() via listener above
+            switchMaster.isChecked = true
         }
 
         startActivity(launchIntent)
-    }
-
-    /**
-     * Kalau master OFF: sub-switch dipaksa kelihatan mati & tidak bisa disentuh (bukan hapus preferensi user).
-     * Kalau master ON: sub-switch balik nunjukin preferensi asli — Animations default WAJIB nyala (true),
-     * yang lain default OPSIONAL mati (false) kecuali user pernah nyalain sendiri.
-     */
-    private fun applySubSwitchUiState(masterOn: Boolean) {
-        isUpdatingUi = true
-        val switches = listOf(
-            switchAnimations, switchDnd, switchRefreshRate, switchMaxBrightness,
-            switchDisableBatterySaver, switchScreenTimeout, switchLockRotation, switchCleanOnStart
-        )
-        switches.forEach { it.isEnabled = masterOn }
-
-        if (masterOn) {
-            switchAnimations.isChecked = prefs.getBoolean("gaming_opt_animations", true)
-            switchDnd.isChecked = prefs.getBoolean("gaming_opt_dnd", false)
-            switchRefreshRate.isChecked = prefs.getBoolean("gaming_opt_refresh", false)
-            switchMaxBrightness.isChecked = prefs.getBoolean("gaming_opt_brightness", false)
-            switchDisableBatterySaver.isChecked = prefs.getBoolean("gaming_opt_battery_saver", false)
-            switchScreenTimeout.isChecked = prefs.getBoolean("gaming_opt_timeout", false)
-            switchLockRotation.isChecked = prefs.getBoolean("gaming_opt_rotation", false)
-            switchCleanOnStart.isChecked = prefs.getBoolean("gaming_opt_clean_start", false)
-        } else {
-            switches.forEach { it.isChecked = false }
-        }
-        isUpdatingUi = false
     }
 
     private fun updateStatusText(active: Boolean) {
@@ -206,7 +128,7 @@ class GamingModeActivity : BaseActivity() {
     }
 
     private fun enableGamingMode() {
-        if (switchAnimations.isChecked) {
+        if (prefs.getBoolean("gaming_opt_animations", true)) {
             val currentScale = ShizukuHelper.runCommand("settings get global window_animation_scale").second
             prefs.edit().putString("saved_anim_scale", currentScale.ifBlank { "1.0" }).apply()
             ShizukuHelper.runCommand("settings put global window_animation_scale 0")
@@ -214,7 +136,7 @@ class GamingModeActivity : BaseActivity() {
             ShizukuHelper.runCommand("settings put global animator_duration_scale 0")
         }
 
-        if (switchRefreshRate.isChecked) {
+        if (prefs.getBoolean("gaming_opt_refresh", false)) {
             val maxRate = getMaxRefreshRate()
             if (maxRate > 0) {
                 val currentPeak = ShizukuHelper.runCommand("settings get system peak_refresh_rate").second
@@ -224,7 +146,7 @@ class GamingModeActivity : BaseActivity() {
             }
         }
 
-        if (switchMaxBrightness.isChecked) {
+        if (prefs.getBoolean("gaming_opt_brightness", false)) {
             val currentBrightness = ShizukuHelper.runCommand("settings get system screen_brightness").second
             val currentMode = ShizukuHelper.runCommand("settings get system screen_brightness_mode").second
             prefs.edit()
@@ -235,25 +157,25 @@ class GamingModeActivity : BaseActivity() {
             ShizukuHelper.runCommand("settings put system screen_brightness 255")
         }
 
-        if (switchDisableBatterySaver.isChecked) {
+        if (prefs.getBoolean("gaming_opt_battery_saver", false)) {
             val currentSaver = ShizukuHelper.runCommand("settings get global low_power").second
             prefs.edit().putString("saved_battery_saver", currentSaver.ifBlank { "0" }).apply()
             ShizukuHelper.runCommand("settings put global low_power 0")
         }
 
-        if (switchScreenTimeout.isChecked) {
+        if (prefs.getBoolean("gaming_opt_timeout", false)) {
             val currentTimeout = ShizukuHelper.runCommand("settings get system screen_off_timeout").second
             prefs.edit().putString("saved_screen_timeout", currentTimeout.ifBlank { "30000" }).apply()
             ShizukuHelper.runCommand("settings put system screen_off_timeout 1800000")
         }
 
-        if (switchLockRotation.isChecked) {
+        if (prefs.getBoolean("gaming_opt_rotation", false)) {
             val currentRotation = ShizukuHelper.runCommand("settings get system accelerometer_rotation").second
             prefs.edit().putString("saved_rotation", currentRotation.ifBlank { "1" }).apply()
             ShizukuHelper.runCommand("settings put system accelerometer_rotation 0")
         }
 
-        if (switchDnd.isChecked) {
+        if (prefs.getBoolean("gaming_opt_dnd", false)) {
             val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             if (nm.isNotificationPolicyAccessGranted) {
                 nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY)
@@ -271,7 +193,7 @@ class GamingModeActivity : BaseActivity() {
         prefs.edit().putBoolean("gaming_mode_active", true).apply()
         updateStatusText(true)
 
-        if (switchCleanOnStart.isChecked) {
+        if (prefs.getBoolean("gaming_opt_clean_start", false)) {
             runCleanOnStart()
         } else {
             Toast.makeText(this, "Gaming Mode activated.", Toast.LENGTH_SHORT).show()
@@ -282,11 +204,7 @@ class GamingModeActivity : BaseActivity() {
         Thread {
             val stoppedCount = try { sweepBackgroundApps(this) } catch (e: Exception) { 0 }
             runOnUiThread {
-                Toast.makeText(
-                    this,
-                    "Gaming Mode activated. Closed $stoppedCount background app(s).",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "Gaming Mode activated. Closed $stoppedCount background app(s).", Toast.LENGTH_SHORT).show()
             }
         }.start()
     }

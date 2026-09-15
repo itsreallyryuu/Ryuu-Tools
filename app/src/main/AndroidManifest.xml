@@ -73,6 +73,9 @@
         <activity android:name=".AppPickerActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
         <activity android:name=".VpnActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
         <activity android:name=".CalculatorActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".VideoBannerActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".GamingModeSettingsActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
+        <activity android:name=".BratGeneratorActivity" android:exported="false" android:theme="@style/Theme.RyuuTools" />
 
 <service
     android:name=".RyuuVpnService"

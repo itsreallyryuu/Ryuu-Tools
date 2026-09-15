@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg_dark">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
+            <ImageButton android:id="@+id/btnBack" android:layout_width="26dp" android:layout_height="26dp" android:background="@android:color/transparent" android:src="@drawable/ic_back" android:tint="@color/neon_cyan" android:contentDescription="Back" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Gaming Mode Settings" android:textColor="@color/neon_cyan" android:textSize="18sp" android:fontFamily="@font/orbitron_bold" />
+        </LinearLayout>
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp" android:text="These apply automatically whenever you turn Gaming Mode on." android:textColor="#888888" android:textSize="12sp" android:fontFamily="sans-serif-condensed" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/bg_card_rounded" android:padding="16dp">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Disable Animations" android:textColor="@color/text_white" android:textSize="13sp" android:fontFamily="sans-serif-condensed" />
+                <Switch android:id="@+id/switchAnimations" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@color/switch_thumb_selector" android:trackTint="@color/switch_track_selector" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A38" android:layout_marginVertical="12dp" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Do Not Disturb" android:textColor="@color/text_white" android:textSize="13sp" android:fontFamily="sans-serif-condensed" />
+                <Switch android:id="@+id/switchDnd" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@color/switch_thumb_selector" android:trackTint="@color/switch_track_selector" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A38" android:layout_marginVertical="12dp" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Force Max Refresh Rate" android:textColor="@color/text_white" android:textSize="13sp" android:fontFamily="sans-serif-condensed" />
+                <Switch android:id="@+id/switchRefreshRate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@color/switch_thumb_selector" android:trackTint="@color/switch_track_selector" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A38" android:layout_marginVertical="12dp" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Max Brightness" android:textColor="@color/text_white" android:textSize="13sp" android:fontFamily="sans-serif-condensed" />
+                <Switch android:id="@+id/switchMaxBrightness" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@color/switch_thumb_selector" android:trackTint="@color/switch_track_selector" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A38" android:layout_marginVertical="12dp" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Disable Battery Saver" android:textColor="@color/text_white" android:textSize="13sp" android:fontFamily="sans-serif-condensed" />
+                <Switch android:id="@+id/switchDisableBatterySaver" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@color/switch_thumb_selector" android:trackTint="@color/switch_track_selector" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A38" android:layout_marginVertical="12dp" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Extend Screen Timeout" android:textColor="@color/text_white" android:textSize="13sp" android:fontFamily="sans-serif-condensed" />
+                <Switch android:id="@+id/switchScreenTimeout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@color/switch_thumb_selector" android:trackTint="@color/switch_track_selector" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A38" android:layout_marginVertical="12dp" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Lock Screen Rotation" android:textColor="@color/text_white" android:textSize="13sp" android:fontFamily="sans-serif-condensed" />
+                <Switch android:id="@+id/switchLockRotation" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@color/switch_thumb_selector" android:trackTint="@color/switch_track_selector" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#2A2A38" android:layout_marginVertical="12dp" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Clean Background Apps on Start" android:textColor="@color/text_white" android:textSize="13sp" android:fontFamily="sans-serif-condensed" />
+                <Switch android:id="@+id/switchCleanOnStart" android:layout_width="wrap_content" android:layout_height="wrap_content" android:thumbTint="@color/switch_thumb_selector" android:trackTint="@color/switch_track_selector" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

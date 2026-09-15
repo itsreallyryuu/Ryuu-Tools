@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/bg_dark">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
+            <ImageButton android:id="@+id/btnBack" android:layout_width="30dp" android:layout_height="30dp" android:background="@android:color/transparent" android:src="@drawable/ic_back" android:tint="@color/neon_cyan" android:contentDescription="Back" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Brat Generator" android:textColor="@color/neon_cyan" android:textSize="18sp" android:fontFamily="@font/orbitron_bold" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:background="@drawable/bg_video_border"
+            android:padding="4dp">
+            <ImageView
+                android:id="@+id/ivBratPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter" />
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/etBratText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="type your text..."
+            android:textColorHint="#888888"
+            android:textColor="@color/text_white"
+            android:padding="14dp"
+            android:background="@drawable/bg_card_rounded"
+            android:fontFamily="sans-serif-condensed" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="14dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Blur Effect"
+                android:textColor="@color/text_white"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-condensed" />
+            <Switch
+                android:id="@+id/switchBlur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:thumbTint="@color/switch_thumb_selector"
+                android:trackTint="@color/switch_track_selector" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSaveBrat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Save to Gallery"
+            android:backgroundTint="@color/neon_cyan"
+            android:textColor="@color/text_white"
+            android:fontFamily="sans-serif-condensed" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

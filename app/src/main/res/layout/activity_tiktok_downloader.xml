@@ -116,30 +116,51 @@
                 android:ellipsize="end" />
 
             <LinearLayout
-                android:id="@+id/videoModeGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+    android:id="@+id/videoModeGroup"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="gone">
 
-                <ImageView
-                    android:id="@+id/ivPreview"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginTop="10dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/bg_video_border" />
+    <FrameLayout
+        android:id="@+id/videoPreviewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_video_border">
 
-                <Button
-                    android:id="@+id/btnDownloadVideo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Download Video (HD, No Watermark)"
-                    android:backgroundTint="@color/neon_cyan"
-                    android:textColor="@color/text_white"
-                    android:fontFamily="sans-serif-condensed" />
-            </LinearLayout>
+        <ImageView
+            android:id="@+id/ivPreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <VideoView
+            android:id="@+id/vvPreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/ivPlayOverlay"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_play_circle"
+            android:tint="@color/text_white" />
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/btnDownloadVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Download Video (HD, No Watermark)"
+        android:backgroundTint="@color/neon_cyan"
+        android:textColor="@color/text_white"
+        android:fontFamily="sans-serif-condensed" />
+</LinearLayout>
 
             <LinearLayout
                 android:id="@+id/photoModeGroup"

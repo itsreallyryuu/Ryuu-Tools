@@ -7,15 +7,17 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import rikka.shizuku.Shizuku
 
 class SystemBoostActivity : BaseActivity() {
 
     private lateinit var tvStatus: TextView
     private lateinit var btnConnect: Button
+    private lateinit var switchEnabled: Switch
+    private var isUserOverridingSwitch = false
 
     private val shizukuPackage = "moe.shizuku.privileged.api"
 
@@ -29,6 +31,7 @@ class SystemBoostActivity : BaseActivity() {
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
         tvStatus = findViewById(R.id.tvRootModeStatus)
         btnConnect = findViewById(R.id.btnConnectRootMode)
+        switchEnabled = findViewById(R.id.switchSystemBoostEnabled)
 
         Shizuku.addBinderReceivedListenerSticky(binderReceivedListener)
         Shizuku.addBinderDeadListener(binderDeadListener)
@@ -36,6 +39,15 @@ class SystemBoostActivity : BaseActivity() {
         btnConnect.setOnClickListener { handleConnectClick() }
         findViewById<Button>(R.id.btnHowTo).setOnClickListener { showGuide() }
         findViewById<Button>(R.id.btnTestConnection).setOnClickListener { testConnection() }
+
+        switchEnabled.setOnCheckedChangeListener { _, checked ->
+            isUserOverridingSwitch = true
+            SystemBoostPrefs.setEnabled(this, checked)
+            if (!checked) {
+                androidx.work.WorkManager.getInstance(this).cancelUniqueWork("memory_sweep_work")
+                Toast.makeText(this, "System Boost features are now off. Underlying Shizuku session stays open — stop it fully from the Shizuku app if needed.", Toast.LENGTH_LONG).show()
+            }
+        }
 
         refreshStatus()
     }
@@ -90,6 +102,21 @@ class SystemBoostActivity : BaseActivity() {
         }
         btnConnect.text = if (granted) "Connected" else "Connect Root Mode"
         btnConnect.isEnabled = !granted
+
+        // Cuma auto-sync kalau user belum pernah toggle manual — biar pilihan manual
+        // user tidak ketiban-timpa tiap kali halaman ini di-refresh.
+        if (!isUserOverridingSwitch) {
+            switchEnabled.setOnCheckedChangeListener(null)
+            switchEnabled.isChecked = SystemBoostPrefs.isEnabled(this)
+            switchEnabled.setOnCheckedChangeListener { _, checked ->
+                isUserOverridingSwitch = true
+                SystemBoostPrefs.setEnabled(this, checked)
+                if (!checked) {
+                    androidx.work.WorkManager.getInstance(this).cancelUniqueWork("memory_sweep_work")
+                    Toast.makeText(this, "System Boost features are now off. Underlying Shizuku session stays open — stop it fully from the Shizuku app if needed.", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     private fun showGuide() {

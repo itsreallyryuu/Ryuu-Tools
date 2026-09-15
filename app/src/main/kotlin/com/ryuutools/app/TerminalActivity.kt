@@ -43,6 +43,20 @@ class TerminalActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_terminal)
 
+        if (!SystemBoostPrefs.isEnabled(this)) {
+            AlertDialog.Builder(this)
+                .setTitle("System Boost is Off")
+                .setMessage("Turn it back on in System Boost to use this feature.")
+                .setPositiveButton("Go to System Boost") { _, _ ->
+                    startActivity(Intent(this, SystemBoostActivity::class.java))
+                    finish()
+                }
+                .setNegativeButton("Cancel") { _, _ -> finish() }
+                .setCancelable(false)
+                .show()
+            return
+        }
+
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
 
         val etCommand = findViewById<EditText>(R.id.etCommand)
@@ -88,6 +102,7 @@ class TerminalActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
+        if (!SystemBoostPrefs.isEnabled(this)) return
         bindService(Intent(this, TerminalSessionService::class.java), connection, Context.BIND_AUTO_CREATE)
     }
 
@@ -115,11 +130,6 @@ class TerminalActivity : BaseActivity() {
         checkRootModeAndPrompt()
     }
 
-    /**
-     * Called every time this screen comes back into view (rebind fires onServiceReady
-     * again). If Root Mode is connected now but the session never started, retry it
-     * automatically — this is what makes "go connect, then come back" work seamlessly.
-     */
     private fun checkRootModeAndPrompt() {
         updateSessionStatus()
         val active = service?.isSessionActive() == true

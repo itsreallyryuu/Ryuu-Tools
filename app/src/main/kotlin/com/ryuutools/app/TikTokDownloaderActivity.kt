@@ -9,12 +9,13 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.VideoView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONObject
@@ -43,22 +44,27 @@ class TikTokDownloaderActivity : BaseActivity() {
         resultContainer = findViewById(R.id.resultContainer)
         etLink = findViewById(R.id.etTiktokLink)
 
-        findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
+        setupPreview()
+
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
+            finish()
+        }
 
         findViewById<ImageButton>(R.id.btnClearInput).setOnClickListener {
             etLink.text.clear()
         }
 
         findViewById<Button>(R.id.btnFetch).setOnClickListener {
-    val link = etLink.text.toString().trim()
-    if (link.isEmpty()) {
-        Toast.makeText(this, "Paste a TikTok link first", Toast.LENGTH_SHORT).show()
-    } else if (!NetworkUtils.isOnline(this)) {
-        NetworkUtils.showOfflineWarning(this)
-    } else {
-        fetchInfo(link)
-    }
-}
+            val link = etLink.text.toString().trim()
+
+            if (link.isEmpty()) {
+                Toast.makeText(this, "Paste a TikTok link first", Toast.LENGTH_SHORT).show()
+            } else if (!NetworkUtils.isOnline(this)) {
+                NetworkUtils.showOfflineWarning(this)
+            } else {
+                fetchInfo(link)
+            }
+        }
 
         findViewById<Button>(R.id.btnDownloadVideo).setOnClickListener {
             videoUrl?.let {
@@ -86,14 +92,111 @@ class TikTokDownloaderActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Setup preview video.
+     * Kondisi awal: thumbnail terlihat, VideoView tersembunyi, play overlay terlihat.
+     */
+    private fun setupPreview() {
+        val vvPreview = findViewById<VideoView>(R.id.vvPreview)
+        val ivPreview = findViewById<ImageView>(R.id.ivPreview)
+        val ivPlayOverlay = findViewById<ImageView>(R.id.ivPlayOverlay)
+
+        vvPreview.visibility = View.GONE
+        ivPreview.visibility = View.VISIBLE
+        ivPlayOverlay.visibility = View.VISIBLE
+
+        ivPlayOverlay.setOnClickListener {
+            val url = videoUrl ?: return@setOnClickListener
+
+            ivPreview.visibility = View.GONE
+            ivPlayOverlay.visibility = View.GONE
+            vvPreview.visibility = View.VISIBLE
+
+            try {
+                val mediaController = android.widget.MediaController(this)
+                mediaController.setAnchorView(vvPreview)
+                vvPreview.setMediaController(mediaController)
+                vvPreview.setVideoURI(Uri.parse(url))
+
+                // FIX: cuma 1 setOnPreparedListener, gabung loop+start+resize jadi satu
+                vvPreview.setOnPreparedListener { mp ->
+                    mp.isLooping = true
+                    vvPreview.start()
+                    resizePreviewToAspectRatio(
+                        findViewById(R.id.videoPreviewContainer),
+                        mp.videoWidth,
+                        mp.videoHeight
+                    )
+                }
+
+                vvPreview.setOnErrorListener { _, _, _ ->
+                    vvPreview.stopPlayback()
+                    vvPreview.visibility = View.GONE
+                    ivPreview.visibility = View.VISIBLE
+                    ivPlayOverlay.visibility = View.VISIBLE
+                    Toast.makeText(this, "Couldn't play preview.", Toast.LENGTH_SHORT).show()
+                    true
+                }
+            } catch (e: Exception) {
+                vvPreview.visibility = View.GONE
+                ivPreview.visibility = View.VISIBLE
+                ivPlayOverlay.visibility = View.VISIBLE
+                Toast.makeText(this, "Couldn't play preview.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun resetPreview() {
+        val vvPreview = findViewById<VideoView>(R.id.vvPreview)
+        val ivPreview = findViewById<ImageView>(R.id.ivPreview)
+        val ivPlayOverlay = findViewById<ImageView>(R.id.ivPlayOverlay)
+
+        try {
+            vvPreview.stopPlayback()
+        } catch (_: Exception) { }
+
+        vvPreview.visibility = View.GONE
+        ivPreview.visibility = View.VISIBLE
+        ivPlayOverlay.visibility = View.VISIBLE
+        ivPreview.setImageDrawable(null)
+    }
+
     private fun resetToInput() {
         videoUrl = null
         audioUrl = null
         imageUrls = emptyList()
         baseFileName = "tiktok_media"
+
         etLink.text.clear()
+        resetPreview()
+
+        findViewById<View>(R.id.videoModeGroup).visibility = View.GONE
+        findViewById<View>(R.id.photoModeGroup).visibility = View.GONE
+        findViewById<Button>(R.id.btnDownloadAudio).visibility = View.GONE
+
         resultContainer.visibility = View.GONE
         inputSection.visibility = View.VISIBLE
+    }
+
+    /**
+     * Bikin kotak preview otomatis menyesuaikan rasio asli video (biasanya 9:16 buat TikTok),
+     * bukan dipaksa masuk kotak landscape fix yang bikin cropping aneh.
+     * Dibatasin tinggi maksimal 500dp biar nggak kebablasan panjang buat video yang sangat portrait.
+     */
+    private fun resizePreviewToAspectRatio(container: FrameLayout, contentWidth: Int, contentHeight: Int) {
+        if (contentWidth <= 0 || contentHeight <= 0) return
+        container.post {
+            val viewWidth = container.width
+            if (viewWidth <= 0) return@post
+            val ratio = contentHeight.toFloat() / contentWidth.toFloat()
+            val maxHeightPx = (500 * resources.displayMetrics.density).toInt()
+            val calculatedHeight = (viewWidth * ratio).toInt()
+            val finalHeight = calculatedHeight.coerceAtMost(maxHeightPx)
+
+            val params = container.layoutParams
+            params.height = finalHeight
+            container.layoutParams = params
+        }
     }
 
     private fun fetchInfo(link: String) {
@@ -116,8 +219,10 @@ class TikTokDownloaderActivity : BaseActivity() {
                 val reader = BufferedReader(InputStreamReader(connection.inputStream))
                 val response = reader.readText()
                 reader.close()
+                connection.disconnect()
 
                 val json = JSONObject(response)
+
                 if (json.getInt("code") != 0) {
                     runOnUiThread {
                         progressBar.visibility = View.GONE
@@ -142,7 +247,6 @@ class TikTokDownloaderActivity : BaseActivity() {
                     }
                     imageUrls = list
                     videoUrl = null
-
                 } else {
                     val hd = data.optString("hdplay")
                     val normal = data.optString("play")
@@ -154,9 +258,13 @@ class TikTokDownloaderActivity : BaseActivity() {
                 val thumbnailBitmap = if (!isPhotoPost && coverUrl.isNotBlank()) {
                     try {
                         val coverConn = URL(coverUrl).openConnection() as HttpURLConnection
-                        coverConn.connect()
-                        BitmapFactory.decodeStream(coverConn.inputStream)
+                        coverConn.connectTimeout = 10000
+                        coverConn.readTimeout = 10000
+                        val bitmap = BitmapFactory.decodeStream(coverConn.inputStream)
+                        coverConn.disconnect()
+                        bitmap
                     } catch (e: Exception) {
+                        Log.e("TikTokDownloader", "Thumbnail error: ${e.message}")
                         null
                     }
                 } else null
@@ -170,6 +278,7 @@ class TikTokDownloaderActivity : BaseActivity() {
                     if (isPhotoPost) {
                         videoModeGroup.visibility = View.GONE
                         photoModeGroup.visibility = View.VISIBLE
+                        resetPreview()
 
                         val rv = findViewById<RecyclerView>(R.id.rvPhotos)
                         rv.layoutManager = GridLayoutManager(this, 2)
@@ -180,16 +289,27 @@ class TikTokDownloaderActivity : BaseActivity() {
                     } else {
                         photoModeGroup.visibility = View.GONE
                         videoModeGroup.visibility = View.VISIBLE
-                        thumbnailBitmap?.let {
-                            findViewById<ImageView>(R.id.ivPreview).setImageBitmap(it)
+
+                        val vvPreview = findViewById<VideoView>(R.id.vvPreview)
+                        val ivPreview = findViewById<ImageView>(R.id.ivPreview)
+                        val ivPlayOverlay = findViewById<ImageView>(R.id.ivPlayOverlay)
+
+                        vvPreview.stopPlayback()
+                        vvPreview.visibility = View.GONE
+                        ivPreview.visibility = View.VISIBLE
+                        ivPlayOverlay.visibility = View.VISIBLE
+
+                        thumbnailBitmap?.let { bmp ->
+                            val container = findViewById<FrameLayout>(R.id.videoPreviewContainer)
+                            ivPreview.setImageBitmap(bmp)
+                            resizePreviewToAspectRatio(container, bmp.width, bmp.height)
                         }
                     }
 
                     btnDownloadAudio.visibility = if (audioUrl != null) View.VISIBLE else View.GONE
                 }
-
             } catch (e: Exception) {
-                Log.e("TikTokDownloader", "Fetch error: ${e.message}")
+                Log.e("TikTokDownloader", "Fetch error: ${e.message}", e)
                 runOnUiThread {
                     progressBar.visibility = View.GONE
                     Toast.makeText(this, "Failed to fetch. Check your connection or link.", Toast.LENGTH_SHORT).show()

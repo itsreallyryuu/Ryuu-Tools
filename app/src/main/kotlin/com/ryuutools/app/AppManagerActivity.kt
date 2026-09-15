@@ -1,5 +1,6 @@
 package com.ryuutools.app
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
@@ -10,7 +11,6 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -26,7 +26,6 @@ class AppManagerActivity : BaseActivity() {
         "com.android.settings"
     )
 
-    // Starter list — commonly known safe removals, not exhaustive. Always double check before disabling.
     private val knownSafeList = setOf(
         "com.facebook.appmanager",
         "com.facebook.services",
@@ -44,6 +43,20 @@ class AppManagerActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app_manager)
+
+        if (!SystemBoostPrefs.isEnabled(this)) {
+            AlertDialog.Builder(this)
+                .setTitle("System Boost is Off")
+                .setMessage("Turn it back on in System Boost to use this feature.")
+                .setPositiveButton("Go to System Boost") { _, _ ->
+                    startActivity(Intent(this, SystemBoostActivity::class.java))
+                    finish()
+                }
+                .setNegativeButton("Cancel") { _, _ -> finish() }
+                .setCancelable(false)
+                .show()
+            return
+        }
 
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
         findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.btnAutostart).setOnClickListener { openAutostartSettings() }

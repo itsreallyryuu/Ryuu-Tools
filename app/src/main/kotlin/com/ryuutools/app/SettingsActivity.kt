@@ -63,6 +63,10 @@ class SettingsActivity : BaseActivity() {
             }
         }
 
+        findViewById<Button>(R.id.btnChangeVideoBanner).setOnClickListener {
+            startActivity(Intent(this, VideoBannerActivity::class.java))
+        }
+
         findViewById<Button>(R.id.btnAbout).setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
         }

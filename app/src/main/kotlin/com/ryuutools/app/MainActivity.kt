@@ -37,6 +37,7 @@ class MainActivity : BaseActivity() {
 
     private var batteryReceiver: BroadcastReceiver? = null
     private lateinit var drawerLayout: DrawerLayout
+    private var lastLoadedBannerKey: String? = null
 
     private val locationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -57,6 +58,56 @@ class MainActivity : BaseActivity() {
         setupToolsGrid()
         setupHeaderMenu()
         setupDrawerMenu()
+
+        showChangelogIfNeeded()
+        showPendingUpdateIfAny()
+    }
+
+    /**
+     * "What's New" dialog — muncul sekali per versi baru, isi teksnya diatur
+     * di ChangelogHelper.kt.
+     */
+    private fun showChangelogIfNeeded() {
+        if (ChangelogHelper.shouldShow(this)) {
+            val entries = ChangelogHelper.getEntriesForCurrentVersion(this)
+            android.app.AlertDialog.Builder(this)
+                .setTitle("What's New")
+                .setMessage(entries?.joinToString("\n\n") ?: "")
+                .setPositiveButton("Got it") { _, _ -> ChangelogHelper.markShown(this) }
+                .setCancelable(false)
+                .show()
+        }
+    }
+
+    /**
+     * Menampilkan dialog "Update Available" kalau UpdateCheckWorker sudah
+     * menemukan versi baru di background dan menyimpannya ke SharedPreferences.
+     * Ini dipanggil setiap onCreate() supaya user tetap ditawari update walau
+     * notifikasinya sudah kelewat/di-dismiss.
+     */
+    private fun showPendingUpdateIfAny() {
+        val prefs = getSharedPreferences("ryuu_prefs", MODE_PRIVATE)
+        if (prefs.getBoolean("pending_update_available", false)) {
+            val version = prefs.getString("pending_update_version", "") ?: ""
+            val url = prefs.getString("pending_update_url", null)
+
+            android.app.AlertDialog.Builder(this)
+                .setTitle("Update Available")
+                .setMessage("Version $version is available. Download now?")
+                .setPositiveButton("Download") { _, _ ->
+                    if (url != null) {
+                        try {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                        } catch (e: Exception) {
+                            Toast.makeText(this, "Unable to open download link.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    // Baru ditandai selesai kalau user benar-benar pilih Download
+                    prefs.edit().putBoolean("pending_update_available", false).apply()
+                }
+                .setNegativeButton("Later", null)
+                .show()
+        }
     }
 
     private fun setupHeaderMenu() {
@@ -88,16 +139,6 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        findViewById<View>(R.id.menuFeedback).setOnClickListener {
-            drawerLayout.closeDrawer(GravityCompat.START)
-            openUrl("https://github.com/itsreallyryuu/Ryuu-Tools/issues/new")
-        }
-
-        findViewById<View>(R.id.menuAbout).setOnClickListener {
-            drawerLayout.closeDrawer(GravityCompat.START)
-            startActivity(Intent(this, AboutActivity::class.java))
-        }
-
         findViewById<View>(R.id.menuSystemBoost).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             startActivity(Intent(this, SystemBoostActivity::class.java))
@@ -105,51 +146,61 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupVideoBanner() {
-        val container = findViewById<FrameLayout>(R.id.videoContainer)
-        val videoView = findViewById<VideoView>(R.id.videoBanner)
+    val container = findViewById<FrameLayout>(R.id.videoContainer)
+    val videoView = findViewById<VideoView>(R.id.videoBanner)
 
-        container.clipToOutline = true
-        container.outlineProvider = object : ViewOutlineProvider() {
-            override fun getOutline(view: View, outline: Outline) {
-                outline.setRoundRect(0, 0, view.width, view.height, 18f * resources.displayMetrics.density)
-            }
-        }
-
-        try {
-            val uri = Uri.parse("android.resource://$packageName/${R.raw.dashboard_loop}")
-            videoView.setVideoURI(uri)
-
-            videoView.setOnPreparedListener { mp ->
-                mp.isLooping = true
-                mp.setVolume(0f, 0f)
-
-                val videoWidth = mp.videoWidth
-                val videoHeight = mp.videoHeight
-                container.post {
-                    val viewWidth = container.width
-                    val viewHeight = container.height
-                    if (videoWidth > 0 && videoHeight > 0 && viewWidth > 0 && viewHeight > 0) {
-                        val videoRatio = videoWidth.toFloat() / videoHeight
-                        val viewRatio = viewWidth.toFloat() / viewHeight
-                        val lp = videoView.layoutParams
-                        if (videoRatio > viewRatio) {
-                            lp.height = viewHeight
-                            lp.width = (viewHeight * videoRatio).toInt()
-                        } else {
-                            lp.width = viewWidth
-                            lp.height = (viewWidth / videoRatio).toInt()
-                        }
-                        videoView.layoutParams = lp
-                    }
-                }
-                videoView.start()
-            }
-
-            videoView.setOnErrorListener { _, _, _ -> true }
-        } catch (e: Exception) {
-            // Aman, video cuma tidak tampil kalau bermasalah
+    container.clipToOutline = true
+    container.outlineProvider = object : ViewOutlineProvider() {
+        override fun getOutline(view: View, outline: Outline) {
+            outline.setRoundRect(0, 0, view.width, view.height, 18f * resources.displayMetrics.density)
         }
     }
+    
+    
+
+    val prefs = getSharedPreferences("ryuu_prefs", MODE_PRIVATE)
+    val bannerType = prefs.getString("video_banner_type", "builtin1") ?: "builtin1"
+
+    try {
+        val uri: Uri = if (bannerType == "custom") {
+            val customUriStr = prefs.getString("video_banner_custom_uri", null)
+            if (customUriStr != null) Uri.parse(customUriStr)
+            else Uri.parse("android.resource://$packageName/${R.raw.dashboard_loop}")
+        } else {
+            val rawId = when (bannerType) {
+                "builtin2" -> resources.getIdentifier("dashboard_loop2", "raw", packageName)
+                "builtin3" -> resources.getIdentifier("dashboard_loop3", "raw", packageName)
+                else -> R.raw.dashboard_loop
+            }
+            Uri.parse("android.resource://$packageName/${if (rawId != 0) rawId else R.raw.dashboard_loop}")
+        }
+
+        videoView.setVideoURI(uri)
+        videoView.setOnPreparedListener { mp ->
+            mp.isLooping = true
+            mp.setVolume(0f, 0f)
+            val videoWidth = mp.videoWidth
+            val videoHeight = mp.videoHeight
+            container.post {
+                val viewWidth = container.width
+                val viewHeight = container.height
+                if (videoWidth > 0 && videoHeight > 0 && viewWidth > 0 && viewHeight > 0) {
+                    val videoRatio = videoWidth.toFloat() / videoHeight
+                    val viewRatio = viewWidth.toFloat() / viewHeight
+                    val lp = videoView.layoutParams
+                    if (videoRatio > viewRatio) {
+                        lp.height = viewHeight; lp.width = (viewHeight * videoRatio).toInt()
+                    } else {
+                        lp.width = viewWidth; lp.height = (viewWidth / videoRatio).toInt()
+                    }
+                    videoView.layoutParams = lp
+                }
+            }
+            videoView.start()
+        }
+        videoView.setOnErrorListener { _, _, _ -> true }
+    } catch (e: Exception) { }
+}
 
     private fun setupDeviceInfo() {
         val tvDeviceName = findViewById<TextView>(R.id.tvDeviceName)
@@ -315,7 +366,8 @@ class MainActivity : BaseActivity() {
             ToolItem("App Manager", R.drawable.ic_apps, true),
             ToolItem("Terminal", R.drawable.ic_terminal, true),
             ToolItem("VPN", R.drawable.ic_vpn, true),
-            ToolItem("Calculator", R.drawable.ic_calculator, true)
+            ToolItem("Calculator", R.drawable.ic_calculator, true),
+            ToolItem("Brat", R.drawable.ic_brat, true)
         )
 
         rv.adapter = ToolsAdapter(tools) { item ->
@@ -337,6 +389,7 @@ class MainActivity : BaseActivity() {
                 "Terminal" -> startActivity(Intent(this, TerminalActivity::class.java))
                 "VPN" -> startActivity(Intent(this, VpnActivity::class.java))
                 "Calculator" -> startActivity(Intent(this, CalculatorActivity::class.java))
+                "Brat" -> startActivity(Intent(this, BratGeneratorActivity::class.java))
             }
         }
     }
@@ -357,10 +410,24 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onResume() {
-        super.onResume()
-        updateSystemBoostDot()
-        setupNetworkStatus()
+    super.onResume()
+    
+    // Bagian lama — tetap dijalankan
+    updateSystemBoostDot()
+    setupNetworkStatus()
+    
+    // Bagian terbaru — ditambahkan
+    val prefs = getSharedPreferences("ryuu_prefs", MODE_PRIVATE)
+    val bannerType = prefs.getString("video_banner_type", "builtin1") ?: "builtin1"
+    val customUri = prefs.getString("video_banner_custom_uri", "") ?: ""
+    val currentKey = "$bannerType|$customUri"
+    
+    if (currentKey != lastLoadedBannerKey) {
+        lastLoadedBannerKey = currentKey
+        setupVideoBanner()
     }
+}
+
 
     private fun updateSystemBoostDot() {
         val dot = findViewById<View>(R.id.dotSystemBoostStatus)

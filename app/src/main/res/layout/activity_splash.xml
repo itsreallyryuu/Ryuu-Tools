@@ -5,6 +5,11 @@
     android:layout_height="match_parent"
     android:background="@color/bg_dark">
 
+    <com.ryuutools.app.MatrixRainView
+    android:id="@+id/matrixRain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+    
     <LinearLayout
         android:id="@+id/splashCard"
         android:layout_width="match_parent"
